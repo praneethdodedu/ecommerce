@@ -154,11 +154,18 @@ class SiteConfiguration(models.Model):
         help_text=_('Require users to activate their account before allowing them to redeem a coupon.'),
         default=True
     )
+<<<<<<< bc777fea1d9469a8fd38690ce09c19709d23dd2b
     optimizely_snippet_src = models.CharField(
         verbose_name=_('Optimizely snippet source URL'),
         help_text=_('This script will be loaded on every page.'),
         max_length=255,
         blank=True
+=======
+    enable_sailthru = models.BooleanField(
+        verbose_name=_('Enable Sailthru Reporting'),
+        help_text=_('Determines if purchases should be reported to Sailthru.'),
+        default=False
+>>>>>>> Moved Sailthru boolean from Partner to SiteConfiguration
     )
 
     @property
