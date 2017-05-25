@@ -28,6 +28,11 @@ StockRecord = get_model('partner', 'StockRecord')
 
 
 class Course(models.Model):
+    # TODO Add to Django admin detail view
+    # TODO Add filter to Django admin list view
+    # TODO Update API to set this
+    # TODO Update factories/tests
+    site = models.ForeignKey('sites.Site', verbose_name=_('Site'), null=False, blank=False, on_delete=models.PROTECT)
     id = models.CharField(null=False, max_length=255, primary_key=True, verbose_name='ID')
     name = models.CharField(null=False, max_length=255)
     verification_deadline = models.DateTimeField(
@@ -116,6 +121,13 @@ class Course(models.Model):
             info = Selector().strategy().fetch_for_product(enrollment_code)
             if info.availability.is_available_to_buy:
                 return enrollment_code
+        return None
+
+    @property
+    def partner(self):
+        if self.site:
+            return self.site.siteconfiguration.partner
+
         return None
 
     def get_course_seat_name(self, certificate_type, id_verification_required):
