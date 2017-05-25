@@ -153,6 +153,7 @@ class AtomicPublicationTests(CourseCatalogTestMixin, TestCase):
             id=self.course_id,
             name=self.course_name,
             verification_deadline=EXPIRES,
+            site=self.site
         )
 
         # Create associated products.

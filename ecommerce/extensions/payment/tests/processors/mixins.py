@@ -31,7 +31,7 @@ class PaymentProcessorTestCaseMixin(RefundTestMixin, CourseCatalogTestMixin, Pay
     def setUp(self):
         super(PaymentProcessorTestCaseMixin, self).setUp()
 
-        self.course = Course.objects.create(id='a/b/c', name='Demo Course')
+        self.course = Course.objects.create(id='a/b/c', name='Demo Course', site=self.site)
         self.product = self.course.create_or_update_seat(self.CERTIFICATE_TYPE, False, 20, self.partner)
 
         self.processor = self.processor_class(self.site)  # pylint: disable=not-callable

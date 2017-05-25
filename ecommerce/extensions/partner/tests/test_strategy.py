@@ -16,7 +16,7 @@ class DefaultStrategyTests(CourseCatalogTestMixin, TestCase):
     def setUp(self):
         super(DefaultStrategyTests, self).setUp()
         self.strategy = DefaultStrategy()
-        course = Course.objects.create(id='a/b/c', name='Demo Course')
+        course = Course.objects.create(id='a/b/c', name='Demo Course', site=self.site)
         self.honor_seat = course.create_or_update_seat('honor', False, 0, self.partner)
 
     def test_seat_class(self):

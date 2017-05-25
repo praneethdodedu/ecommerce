@@ -13,6 +13,7 @@ from ecommerce.core.constants import ISO_8601_FORMAT, SEAT_PRODUCT_CLASS_NAME
 from ecommerce.core.tests import toggle_switch
 from ecommerce.courses.models import Course
 from ecommerce.courses.publishers import LMSPublisher
+from ecommerce.extensions.api.serializers import SiteSerializer
 from ecommerce.extensions.api.v2.tests.views import JSON_CONTENT_TYPE, ProductSerializerMixin
 from ecommerce.extensions.catalogue.tests.mixins import CourseCatalogTestMixin
 from ecommerce.tests.testcases import TestCase
@@ -34,7 +35,7 @@ class CourseViewSetTests(ProductSerializerMixin, CourseCatalogTestMixin, TestCas
         self.course = self.create_course()
 
     def create_course(self):
-        return Course.objects.create(id='edX/DemoX/Demo_Course', name='Test Course')
+        return Course.objects.create(id='edX/DemoX/Demo_Course', name='Test Course', site=self.site)
 
     def serialize_course(self, course, include_products=False):
         """ Serializes a course to a Python dict. """
@@ -47,6 +48,7 @@ class CourseViewSetTests(ProductSerializerMixin, CourseCatalogTestMixin, TestCas
         data = {
             'id': course.id,
             'name': course.name,
+            'site': SiteSerializer(course.site).data,
             'verification_deadline': course.verification_deadline,
             'type': course.type,
             'url': self.get_full_url(reverse('api:v2:course-detail', kwargs={'pk': course.id})),
@@ -114,7 +116,8 @@ class CourseViewSetTests(ProductSerializerMixin, CourseCatalogTestMixin, TestCas
         course_name = 'Test Course'
         data = {
             'id': course_id,
-            'name': course_name
+            'name': course_name,
+            'site': 1
         }
         response = self.client.post(self.list_path, json.dumps(data), JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, 201)

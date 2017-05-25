@@ -7,7 +7,7 @@ from django.db import migrations, models
 
 
 def add_site_to_courses(apps, schema_editor):
-    Course = apps.get_model('ecommerce.courses', 'Course')
+    Course = apps.get_model('courses', 'Course')
 
     for course in Course.objects.all():
         course.site = course.seat_products[0].stockrecords.first().partner.siteconfiguration.site

@@ -1,7 +1,6 @@
 """Tests of ecommerce sailthru signal handlers."""
 import logging
 
-from django.test.client import RequestFactory
 from mock import patch
 from oscar.core.loading import get_model
 from oscar.test.factories import create_order
@@ -12,7 +11,6 @@ from ecommerce.coupons.tests.mixins import CouponMixin
 from ecommerce.courses.models import Course
 from ecommerce.extensions.catalogue.tests.mixins import CourseCatalogTestMixin
 from ecommerce.sailthru.signals import SAILTHRU_CAMPAIGN, process_basket_addition, process_checkout_complete
-from ecommerce.tests.factories import SiteConfigurationFactory
 from ecommerce.tests.testcases import TestCase
 
 BasketAttributeType = get_model('basket', 'BasketAttributeType')
@@ -37,7 +35,7 @@ class SailthruSignalTests(CouponMixin, CourseCatalogTestMixin, TestCase):
         # create some test course objects
         self.course_id = 'edX/toy/2012_Fall'
         self.course_url = 'http://lms.testserver.fake/courses/edX/toy/2012_Fall/info'
-        self.course = Course.objects.create(id=self.course_id, name='Demo Course')
+        self.course = Course.objects.create(id=self.course_id, name='Demo Course', site=self.site)
 
         self.basket_attribute_type, __ = BasketAttributeType.objects.get_or_create(name=SAILTHRU_CAMPAIGN)
 

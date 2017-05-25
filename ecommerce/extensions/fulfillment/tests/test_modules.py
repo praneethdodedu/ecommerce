@@ -55,7 +55,7 @@ class EnrollmentFulfillmentModuleTests(CourseCatalogTestMixin, FulfillmentTestMi
         super(EnrollmentFulfillmentModuleTests, self).setUp()
 
         self.user = UserFactory()
-        self.course = Course.objects.create(id=self.course_id, name='Demo Course')
+        self.course = Course.objects.create(id=self.course_id, name='Demo Course', site=self.site)
 
         self.seat = self.course.create_or_update_seat(self.certificate_type, False, 100, self.partner, self.provider)
 
