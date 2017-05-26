@@ -46,8 +46,8 @@ class SiteConfiguration(models.Model):
         verbose_name=_('Path to custom site theme'),
         help_text='DEPRECATED: THIS FIELD WILL BE REMOVED!',
         max_length=255,
-        null=False,
-        blank=False
+        null=True,
+        blank=True
     )
     payment_processors = models.CharField(
         verbose_name=_('Payment processors'),
