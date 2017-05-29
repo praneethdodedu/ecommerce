@@ -4,7 +4,7 @@ from django.conf import settings
 from django.utils.timezone import now, timedelta
 from freezegun import freeze_time
 from oscar.core.loading import get_model
-from oscar.test.factories import create_order
+from oscar.test.factories import create_order, PartnerFactory
 from oscar.test.newfactories import BasketFactory
 
 from ecommerce.core.constants import ENROLLMENT_CODE_PRODUCT_CLASS_NAME, ENROLLMENT_CODE_SWITCH
@@ -262,6 +262,16 @@ class CourseTests(CourseCatalogTestMixin, TestCase):
         product_mode = course.products.all()[1]
         self.assertEqual(product_mode.attr.id_verification_required, False)
         self.assertEqual(product_mode.attr.certificate_type, 'professional')
+
+    def test_partner_property(self):
+        """ Partner property should return the correct partner. """
+        partner = PartnerFactory()
+        siteconfiguration = self.site.siteconfiguration
+        siteconfiguration.partner = partner
+        siteconfiguration.save()
+
+        course = Course.objects.create(id='abc', name='Test Course', site=self.site)
+        self.assertEqual(course.partner, partner)
 
     def test_type(self):
         """ Verify the property returns a type value corresponding to the available products. """

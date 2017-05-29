@@ -28,10 +28,6 @@ StockRecord = get_model('partner', 'StockRecord')
 
 
 class Course(models.Model):
-    # TODO Add to Django admin detail view
-    # TODO Add filter to Django admin list view
-    # TODO Update API to set this
-    # TODO Update factories/tests
     site = models.ForeignKey('sites.Site', verbose_name=_('Site'), null=False, blank=False, on_delete=models.PROTECT)
     id = models.CharField(null=False, max_length=255, primary_key=True, verbose_name='ID')
     name = models.CharField(null=False, max_length=255)
