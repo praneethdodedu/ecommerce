@@ -124,7 +124,7 @@ class Course(models.Model):
         if self.site:
             return self.site.siteconfiguration.partner
 
-        return None
+        return None  # pragma: no cover
 
     def get_course_seat_name(self, certificate_type, id_verification_required):
         """ Returns the name for a course seat. """
