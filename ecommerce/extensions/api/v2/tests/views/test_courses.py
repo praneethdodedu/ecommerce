@@ -117,7 +117,7 @@ class CourseViewSetTests(ProductSerializerMixin, CourseCatalogTestMixin, TestCas
         data = {
             'id': course_id,
             'name': course_name,
-            'site': 1
+            'site': self.site.id
         }
         response = self.client.post(self.list_path, json.dumps(data), JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, 201)
@@ -159,7 +159,9 @@ class CourseViewSetTests(ProductSerializerMixin, CourseCatalogTestMixin, TestCas
         course_id = self.course.id
         path = reverse('api:v2:course-detail', kwargs={'pk': course_id})
         name = 'Something awesome!'
-        response = self.client.put(path, json.dumps({'id': course_id, 'name': name}), JSON_CONTENT_TYPE)
+        response = self.client.put(path, json.dumps(
+            {'id': course_id, 'name': name, 'site': self.site.id}
+        ), JSON_CONTENT_TYPE)
         self.assertEqual(response.status_code, 200, response.content)
 
         # Reload the Course

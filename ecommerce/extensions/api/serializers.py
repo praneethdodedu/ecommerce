@@ -287,7 +287,7 @@ class SiteSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.RegexField(COURSE_ID_REGEX, max_length=255)
-    site = SiteSerializer(read_only=True)
+    site = SiteSerializer()
     products = ProductSerializer(many=True)
     products_url = serializers.SerializerMethodField()
     last_edited = serializers.SerializerMethodField()
