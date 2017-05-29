@@ -624,7 +624,7 @@ class UtilTests(CouponMixin, CourseCatalogMockMixin, CourseCatalogTestMixin, Lms
             get_voucher_and_products_from_code(code=FuzzyText().fuzz())
 
     def test_generate_coupon_report_for_program_coupon(self):
-        """ Verify empty report fields for program coupons. """
+        """ Only program coupon applicable fields should be shown. """
         program_uuid = uuid.uuid4()
         program_coupon = self.create_coupon(
             title='Program Coupon Report',
@@ -633,11 +633,7 @@ class UtilTests(CouponMixin, CourseCatalogMockMixin, CourseCatalogTestMixin, Lms
         program_coupon.history.update(history_user=self.user)
         field_names, rows = generate_coupon_report([program_coupon.attr.coupon_vouchers])
 
-        empty_fields = (
-            'Discount Amount',
-            'Price',
-        )
-        for field in empty_fields:
+        for field in ('Discount Amount', 'Price'):
             self.assertIsNone(rows[0][field])
 
         removed_fields = ('Catalog Query', 'Course ID', 'Course Seat Types', 'Organization', 'Redeemed For Course ID',)

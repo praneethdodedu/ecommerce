@@ -109,7 +109,6 @@ def _get_info_for_coupon_report(coupon, voucher):
         course_id = seat_stockrecord.product.attr.course_key
         course_organization = CourseKey.from_string(course_id).org
     elif offer_range.catalog_query:
-        # Note (multi-courses): Need to account for multiple seats.
         catalog_query = offer_range.catalog_query
         course_id = None
         course_seat_types = offer_range.course_seat_types
