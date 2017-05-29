@@ -287,7 +287,7 @@ class SiteSerializer(serializers.ModelSerializer):
 
 class CourseSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.RegexField(COURSE_ID_REGEX, max_length=255)
-    site = SiteSerializer()
+    site = SiteSerializer(read_only=True)
     products = ProductSerializer(many=True)
     products_url = serializers.SerializerMethodField()
     last_edited = serializers.SerializerMethodField()
@@ -317,7 +317,7 @@ class CourseSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'id', 'url', 'name', 'verification_deadline', 'type', 'site',
             'products_url', 'last_edited', 'products', 'has_active_bulk_enrollment_code')
-        read_only_fields = ('type', 'products')
+        read_only_fields = ('type', 'products', 'site')
         extra_kwargs = {
             'url': {'view_name': COURSE_DETAIL_VIEW}
         }
@@ -567,6 +567,7 @@ class CouponSerializer(ProductPaymentInfoMixin, serializers.ModelSerializer):
     code_status = serializers.SerializerMethodField()
     coupon_type = serializers.SerializerMethodField()
     course_seat_types = serializers.SerializerMethodField()
+    email_domains = serializers.SerializerMethodField()
     enterprise_customer = serializers.SerializerMethodField()
     end_date = serializers.SerializerMethodField()
     last_edited = serializers.SerializerMethodField()
@@ -576,10 +577,9 @@ class CouponSerializer(ProductPaymentInfoMixin, serializers.ModelSerializer):
     payment_information = serializers.SerializerMethodField()
     program_uuid = serializers.SerializerMethodField()
     quantity = serializers.SerializerMethodField()
+    seats = serializers.SerializerMethodField()
     start_date = serializers.SerializerMethodField()
     voucher_type = serializers.SerializerMethodField()
-    seats = serializers.SerializerMethodField()
-    email_domains = serializers.SerializerMethodField()
 
     def get_benefit_type(self, obj):
         return retrieve_benefit(obj).type
